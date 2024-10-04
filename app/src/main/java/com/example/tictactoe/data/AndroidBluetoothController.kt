@@ -13,9 +13,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
 @SuppressLint("MissingPermission")
-class AndroidBluetoothController(
-    private val context: Context
-): BluetoothController {
+class AndroidBluetoothController(private val context: Context): BluetoothController {
 
     private val bluetoothManager by lazy {
         context.getSystemService(BluetoothManager::class.java)
@@ -39,6 +37,10 @@ class AndroidBluetoothController(
         }
     }
 
+    init {
+        updatePairedDevices()
+    }
+
     override fun stopDiscovery() {
         TODO("Not yet implemented")
     }
@@ -48,7 +50,7 @@ class AndroidBluetoothController(
     }
 
     @SuppressLint("MissingPermission")
-    private fun updatePairedDevices(){
+    fun updatePairedDevices(){
         if(!hasPermission(Manifest.permission.BLUETOOTH_CONNECT)){
             return
         }
