@@ -1,0 +1,80 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <TextView
+        android:id="@+id/gameStatusTextView"
+        android:layout_width="194dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textSize="24sp"
+        android:visibility="visible" />
+
+    <Spinner
+        android:id="@+id/difficulty_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:entries="@array/difficulty_levels"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        android:minHeight="48dp"/>
+
+
+    <GridLayout
+        android:id="@+id/gridLayout"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:rowCount="3"
+        android:columnCount="3"
+        android:layout_gravity="center"
+        android:padding="10dp">
+
+        <!-- 9 Buttons for Tic Tac Toe Grid -->
+        <Button
+            android:id="@+id/button00"
+            style="@style/GridButton"/>
+        <Button
+            android:id="@+id/button01"
+            style="@style/GridButton"/>
+        <Button
+            android:id="@+id/button02"
+            style="@style/GridButton"/>
+        <Button
+            android:id="@+id/button10"
+            style="@style/GridButton"/>
+        <Button
+            android:id="@+id/button11"
+            style="@style/GridButton"/>
+        <Button
+            android:id="@+id/button12"
+            style="@style/GridButton"/>
+        <Button
+            android:id="@+id/button20"
+            style="@style/GridButton"/>
+        <Button
+            android:id="@+id/button21"
+            style="@style/GridButton"/>
+        <Button
+            android:id="@+id/button22"
+            style="@style/GridButton"/>
+
+    </GridLayout>
+
+    <Button
+        android:id="@+id/restartButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Restart Game"
+        android:layout_marginTop="20dp"/>
+
+    <Button
+        android:id="@+id/buttonToHumanVsHumanGameplay"
+        android:layout_width="308dp"
+        android:layout_height="wrap_content"
+        android:text="@string/human_vs_human_mode" />
+
+
+</LinearLayout>
+
