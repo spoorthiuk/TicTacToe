@@ -49,6 +49,11 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
+
+    /*
+        // Compose dependencies
+        implementation(libs.androidx.compose.ui)
+        implementation(libs.androidx.compose.material)*/
 }
 
 // Allow references to generated code
