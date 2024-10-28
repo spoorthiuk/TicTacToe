@@ -44,6 +44,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.play.services.basement)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -54,6 +55,7 @@ dependencies {
         // Compose dependencies
         implementation(libs.androidx.compose.ui)
         implementation(libs.androidx.compose.material)*/
+    implementation(kotlin("script-runtime"))
 }
 
 // Allow references to generated code

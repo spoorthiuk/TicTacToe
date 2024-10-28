@@ -8,6 +8,6 @@ import com.example.tictactoe.bluetooth.BluetoothDeviceDomain
 fun BluetoothDevice.toBluetoothDeviceDomain(): BluetoothDeviceDomain{
     return BluetoothDeviceDomain(
         name = name,
-        macAddress = address
+        address = address
     )
 }

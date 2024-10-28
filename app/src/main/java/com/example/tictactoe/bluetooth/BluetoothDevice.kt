@@ -4,5 +4,5 @@ typealias BluetoothDeviceDomain = BluetoothDevice
 
 data class BluetoothDevice(
     val name: String?,
-    val macAddress: String
+    val address: String
 )
