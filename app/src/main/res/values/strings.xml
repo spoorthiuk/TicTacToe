@@ -4,4 +4,6 @@
     <string name="start_game">Start Game</string>
     <string name="show_paired_bluetooth_devices">Show Paired Bluetooth devices</string>
     <string name="human_vs_human_mode">"Go to Human vs Human Gameplay"</string>
+    <string name="available_devices">Available Devices</string>
+    <string name="enter_your_name">Enter your name</string>
 </resources>
