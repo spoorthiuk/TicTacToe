@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
         val button = findViewById<Button>(R.id.buttonToHumanVsHumanGameplay)
 
         button.setOnClickListener {
-            val intent = Intent(this, MultiplayerHomeView::class.java)
+            val intent = Intent(this, MultiplayerActivity::class.java)
             startActivity(intent)
         }
 
