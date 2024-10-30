@@ -38,6 +38,7 @@
         </activity>
         <activity android:name=".MultiplayerActivity" />
         <activity android:name=".MultipleDeviceGameLauncher" />
+        <activity android:name=".MultiplayerTicTacToeGameActivity"/>
     </application>
 
 </manifest>

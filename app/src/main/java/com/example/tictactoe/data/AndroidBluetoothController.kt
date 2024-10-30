@@ -50,23 +50,35 @@ class AndroidBluetoothController(
     //val isConnected = MutableStateFlow(false)
 
     // Start server for connection
+    private val _connectionEvents = MutableSharedFlow<ConnectionResult>()
+    val connectionEvents: SharedFlow<ConnectionResult> get() = _connectionEvents.asSharedFlow()
+
     fun startServer() {
         serverSocket = BluetoothAdapter.getDefaultAdapter()
             .listenUsingRfcommWithServiceRecord("TicTacToeGame", uuid)
 
-        Thread {
+        // Start a coroutine for non-blocking I/O operations
+        CoroutineScope(Dispatchers.IO).launch {
             try {
                 Log.d("Bluetooth", "Waiting for client connection...")
                 communicationSocket = serverSocket?.accept() // Blocking call
-                serverSocket?.close() // Close after client connects
-                _isConnected.value = true
-                handleConnection(communicationSocket)
+
+                if (communicationSocket != null) {
+                    serverSocket?.close() // Close after client connects
+                    _isConnected.value = true
+
+                    // Emit a successful connection event
+                    _connectionEvents.emit(ConnectionResult.ConnectionEstablished)
+                    Log.d("Bluetooth", "Client connected successfully")
+
+                    handleConnection(communicationSocket) // Start handling communication
+                }
             } catch (e: IOException) {
                 Log.e("Bluetooth", "Server error: ", e)
+                _connectionEvents.emit(ConnectionResult.Error("Connection failed"))
             }
-        }.start()
+        }
     }
-
     // Handle data transfer
     private fun handleConnection(socket: BluetoothSocket?) {
         val inputStream = socket?.inputStream
@@ -242,7 +254,7 @@ class AndroidBluetoothController(
         }.flowOn(Dispatchers.IO)
     }
 
-    override fun connectToDevice(device: BluetoothDeviceDomain): Flow<ConnectionResult> {
+    override fun connectToDevice(device: BluetoothDevice): Flow<ConnectionResult> {
         return flow {
             if(!hasPermission(Manifest.permission.BLUETOOTH_CONNECT)) {
                 throw SecurityException("No BLUETOOTH_CONNECT permission")
