@@ -1,5 +1,6 @@
 package com.example.tictactoe
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -7,12 +8,16 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 
+private lateinit var playerIndicator: ImageView
+private lateinit var aiIndicator: ImageView
+
 class GamePlayActivity:AppCompatActivity() {
     private lateinit var gridBoxes : Array<Array<ImageView>>
     private lateinit var statusTextView:TextView
     private lateinit var settingsButton:ImageButton
     private var selectedDifficulty = "Hard"
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.game_play3)
@@ -27,6 +32,9 @@ class GamePlayActivity:AppCompatActivity() {
         settingsButton.setOnClickListener{
             showDifficultyDialog()
         }
+        playerIndicator = findViewById(R.id.player)
+        aiIndicator = findViewById(R.id.ai)
+
     }
 
     private fun initializeBoard()
@@ -189,11 +197,34 @@ class GamePlayActivity:AppCompatActivity() {
         gridBoxes[i][j].isClickable = false
     }
 
-    private fun showDifficultyDialog()
-    {
-        val difficulties = arrayOf("Easy","Medium","Hard")
-        AlertDialog.Builder(this).setTitle("Choose Difficulty Level").setItems(difficulties)
-        {_,which -> selectedDifficulty = difficulties[which]
-        }.setNegativeButton("Cancel"){ dialog,_ -> dialog.dismiss() }.show()
+
+    private fun showDifficultyDialog() {
+        val options = arrayOf("Easy", "Medium", "Hard", "Reset")
+        AlertDialog.Builder(this)
+            .setTitle("Settings")
+            .setItems(options) { _, which ->
+                when (which) {
+                    in 0..2 -> {
+                        selectedDifficulty = options[which]
+                        resetGame()
+                    }
+                    // Update difficulty
+                    3 -> resetGame() // Reset the game
+                }
+            }
+            .setNegativeButton("Cancel") { dialog, _ -> dialog.dismiss() }
+            .show()
+    }
+
+    private fun resetGame() {
+        for (i in 0..2) {
+            for (j in 0..2) {
+                gridBoxes[i][j].tag = "grid_box"
+                gridBoxes[i][j].setImageResource(0) // Clear the images
+                gridBoxes[i][j].isClickable = true // Make the boxes clickable again
+            }
+        }
+        statusTextView.text = "" // Clear the status message
+        statusTextView.visibility = TextView.GONE // Hide the status text view
     }
 }
