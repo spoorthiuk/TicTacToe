@@ -60,6 +60,7 @@
         <activity android:name=".MultipleDeviceGameLauncher" />
         <activity android:name=".GamePlayActivity" />
         <activity android:name=".PlayerNameSelectionActivity" />
+        <activity android:name=".HumanVsHumanGamePlayActivity"/>
     </application>
 
 </manifest>
