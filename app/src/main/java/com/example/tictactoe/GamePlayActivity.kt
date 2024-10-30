@@ -5,21 +5,35 @@ import android.os.Bundle
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.example.tictactoe.dao.AppDatabase
+import com.example.tictactoe.models.GameResult
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
-private lateinit var playerIndicator: ImageView
-private lateinit var aiIndicator: ImageView
 
 class GamePlayActivity:AppCompatActivity() {
     private lateinit var gridBoxes : Array<Array<ImageView>>
     private lateinit var statusTextView:TextView
     private lateinit var settingsButton:ImageButton
     private var selectedDifficulty = "Hard"
+    private lateinit var db: AppDatabase
+    private lateinit var playerIndicator: ImageView
+    private lateinit var aiIndicator: ImageView
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        db = AppDatabase.getDatabase(this)
+
         setContentView(R.layout.game_play3)
         statusTextView = findViewById(R.id.statusTextView)
         gridBoxes = arrayOf(
@@ -78,13 +92,26 @@ class GamePlayActivity:AppCompatActivity() {
         statusTextView.visibility = TextView.VISIBLE
     }
 
-    private fun getGameStatus(): String
-    {
-        return if(checkWin("Human"))
-            "won"
-        else if (checkWin("AI"))
-            "lost"
-        else "draw"
+    private fun getGameStatus(): String {
+        val gameStatus: String
+
+        // Determine the game status
+        gameStatus = when {
+            checkWin("Human") -> {
+                saveGameResult("Human") // Save the result to the database
+                "won"
+            }
+            checkWin("AI") -> {
+                saveGameResult("AI") // Save the result to the database
+                "lost"
+            }
+            else -> {
+                saveGameResult("Draw") // You might need to define how to handle a draw
+                "draw"
+            }
+        }
+
+        return gameStatus
     }
 
     private fun isGameOver(): Boolean
@@ -227,4 +254,29 @@ class GamePlayActivity:AppCompatActivity() {
         statusTextView.text = "" // Clear the status message
         statusTextView.visibility = TextView.GONE // Hide the status text view
     }
+
+    private fun saveGameResult(winner: String) {
+        val currentDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
+        val difficulty = selectedDifficulty
+        val mode = "Single Player"
+
+        val gameResult = GameResult(date = currentDate, winner = winner, difficulty = difficulty, mode = mode)
+
+        // Step 3: Insert the game result in the database using a coroutine
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                db.gameResultDao().insertGameResult(gameResult)
+                // Provide feedback to the user (on the main thread)
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@GamePlayActivity, "Game result saved!", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                // Handle any errors
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@GamePlayActivity, "Error saving result: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
 }
