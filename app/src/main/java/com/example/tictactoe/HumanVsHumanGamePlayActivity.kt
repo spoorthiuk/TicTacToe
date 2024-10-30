@@ -1,5 +1,6 @@
 package com.example.tictactoe
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -17,7 +18,9 @@ class HumanVsHumanGamePlayActivity: AppCompatActivity()
     private var hasPlayerWon = false
     private lateinit var settingsButton:ImageButton
     private lateinit var gameStatusTextView: TextView
+    private lateinit var currentPlayerTextView: TextView
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
@@ -26,6 +29,7 @@ class HumanVsHumanGamePlayActivity: AppCompatActivity()
         player2Name = findViewById(R.id.humanPlayer2)
         settingsButton = findViewById(R.id.icon_button)
         gameStatusTextView = findViewById(R.id.statusTextView)
+        currentPlayerTextView = findViewById(R.id.currentPlayer)
         player1Name.text = intent.getStringExtra("Player1Name").toString()
         player2Name.text = intent.getStringExtra("Player2Name").toString()
 
@@ -56,6 +60,7 @@ class HumanVsHumanGamePlayActivity: AppCompatActivity()
 
                 }
                 currentPlayer = firstPlayerName
+                currentPlayerTextView.text = currentPlayer + "'s Turn"
             }
                 .setNegativeButton("Cancel"){ dialog,_ -> dialog.dismiss() }.show()
         }
@@ -90,10 +95,14 @@ class HumanVsHumanGamePlayActivity: AppCompatActivity()
                         gameStatusTextView.text = "${currentPlayer} Wins!"
                         return@setOnClickListener
                     }
-                    if(currentPlayer == player1Name.text.toString())
+                    if(currentPlayer == player1Name.text.toString()){
                         currentPlayer = player2Name.text.toString()
-                    else
+                        currentPlayerTextView.text = currentPlayer + "'s Turn"
+                    }
+                    else {
                         currentPlayer = player1Name.text.toString()
+                        currentPlayerTextView.text = currentPlayer + "'s Turn"
+                    }
                 }
             }
             if (hasPlayerWon){
