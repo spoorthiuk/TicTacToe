@@ -5,7 +5,21 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context=".WelcomePage">
+
+    <ImageView
+        android:id="@+id/myImageView"
+        android:layout_width="592dp"
+        android:layout_height="561dp"
+        android:contentDescription="Description of the image"
+        android:src="@drawable/logo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.723" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
