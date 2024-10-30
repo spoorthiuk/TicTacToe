@@ -10,12 +10,15 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
 class WelcomePage : AppCompatActivity() {
+    /**
+     * This class defines the welcome view of the game
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_welcome_page)
         Handler(Looper.getMainLooper()).postDelayed({
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, PlayModeChoice::class.java)
             startActivity(intent)
             finish()  // Close SplashActivity so it won't appear when pressing back in MainActivity
         }, 3000)

@@ -27,8 +27,14 @@
         android:theme="@style/Theme.TicTacToe"
         tools:targetApi="31">
         <activity
+            android:name=".SinglePlayerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PlayModeChoice"
+            android:exported="false" />
+        <activity
             android:name=".WelcomePage"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -37,9 +43,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:exported="true">
-
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".MultiplayerHomeView"
             android:exported="true">
