@@ -33,6 +33,7 @@ class GamePlayActivity:AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         db = AppDatabase.getDatabase(this)
+        selectedDifficulty = intent.getStringExtra("DIFFICULTY") ?: "Hard"
 
         setContentView(R.layout.game_play3)
         statusTextView = findViewById(R.id.statusTextView)
@@ -94,19 +95,26 @@ class GamePlayActivity:AppCompatActivity() {
 
     private fun getGameStatus(): String {
         val gameStatus: String
+        val username = intent.getStringExtra("USERNAME")
 
         // Determine the game status
         gameStatus = when {
             checkWin("Human") -> {
-                saveGameResult("Human") // Save the result to the database
+                if (username != null) {
+                    saveGameResult("Human", username)
+                } // Save the result to the database
                 "won"
             }
             checkWin("AI") -> {
-                saveGameResult("AI") // Save the result to the database
+                if (username != null) {
+                    saveGameResult("AI", username)
+                } // Save the result to the database
                 "lost"
             }
             else -> {
-                saveGameResult("Draw") // You might need to define how to handle a draw
+                if (username != null) {
+                    saveGameResult("Draw", username)
+                } // You might need to define how to handle a draw
                 "draw"
             }
         }
@@ -255,12 +263,11 @@ class GamePlayActivity:AppCompatActivity() {
         statusTextView.visibility = TextView.GONE // Hide the status text view
     }
 
-    private fun saveGameResult(winner: String) {
+    private fun saveGameResult(winner: String, username: String) {
         val currentDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
         val difficulty = selectedDifficulty
         val mode = "Single Player"
-
-        val gameResult = GameResult(date = currentDate, winner = winner, difficulty = difficulty, mode = mode)
+        val gameResult = GameResult(date = currentDate, username = username, winner = winner, difficulty = difficulty, mode = mode)
 
         // Step 3: Insert the game result in the database using a coroutine
         CoroutineScope(Dispatchers.IO).launch {

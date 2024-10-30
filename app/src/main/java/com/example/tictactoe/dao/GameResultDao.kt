@@ -9,4 +9,8 @@ import com.example.tictactoe.models.GameResult
 interface GameResultDao {
     @Insert
     suspend fun insertGameResult(gameResult: GameResult): Long // Ensure this is GameResult
+
+    // Query to fetch all entries from the GameResult table
+    @Query("SELECT * FROM single_player_game_results ORDER BY date DESC")
+    suspend fun getAllGameResults(): List<GameResult>
 }
