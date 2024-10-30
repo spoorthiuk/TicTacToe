@@ -33,9 +33,7 @@ class HumanVsHumanGamePlayActivity: AppCompatActivity()
             arrayOf(findViewById(R.id.box1), findViewById(R.id.box2), findViewById(R.id.box3)),
             arrayOf(findViewById(R.id.box5),findViewById(R.id.box6),findViewById(R.id.box4)),
             arrayOf(findViewById(R.id.box9),findViewById(R.id.box7),findViewById(R.id.box8)))
-
         showWhoGoesFirstDialog(player1Name.text.toString(),player2Name.text.toString())
-
         initializeBoard()
         settingsButton.setOnClickListener {
             showWhoGoesFirstDialog(player1Name.text.toString(),player2Name.text.toString())
