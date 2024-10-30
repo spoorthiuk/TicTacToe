@@ -3,10 +3,14 @@ package com.example.tictactoe
 import android.Manifest
 import android.annotation.SuppressLint
 import android.bluetooth.BluetoothAdapter
+import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothManager
+import android.bluetooth.BluetoothServerSocket
+import android.bluetooth.BluetoothSocket
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ListView
@@ -16,6 +20,8 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.tictactoe.bluetooth.BluetoothDeviceDomain
 import com.example.tictactoe.data.AndroidBluetoothController
+import java.io.IOException
+import java.util.UUID
 
 @SuppressLint("MissingPermission")
 class MultipleDeviceGameLauncher : AppCompatActivity()
@@ -28,11 +34,12 @@ class MultipleDeviceGameLauncher : AppCompatActivity()
     private lateinit var listView: ListView
     private lateinit var bluetoothDevicesList: List<BluetoothDeviceDomain>
     private val phonePermissions = mutableListOf(Manifest.permission.BLUETOOTH_CONNECT,Manifest.permission.BLUETOOTH_SCAN).apply { }.toTypedArray()
+    private var serverSocket:BluetoothServerSocket? = null
+    private var clientSocket:BluetoothSocket? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.multiple_devices_choices)
-
         bluetoothManager = getSystemService(BluetoothManager::class.java)
         bluetoothAdapter = bluetoothManager.adapter
         showPairedDevicesButton = findViewById(R.id.bluetoothON)
@@ -45,6 +52,79 @@ class MultipleDeviceGameLauncher : AppCompatActivity()
             ActivityCompat.requestPermissions(this,phonePermissions,1)
         }
         showPairedDevices()
+        startBluetoothServer()
+        listView.setOnItemClickListener { parent, view, position, id ->
+            val bluetoothDevice : BluetoothDevice? = androidBluetoothController.getBondedDevices()?.elementAt(position)
+            connectToDevice(bluetoothDevice)
+        }
+    }
+
+    private fun connectToDevice(selectedDevice: BluetoothDevice?) {
+        Toast.makeText(this,"Connecting to ${selectedDevice?.name}",Toast.LENGTH_SHORT).show()
+        Thread{
+            clientSocket = bluetoothAdapter
+                .getRemoteDevice(selectedDevice?.address)?.
+                createRfcommSocketToServiceRecord(MY_UUID)
+
+            clientSocket?.let { socket ->
+                try {
+                    socket.connect()
+                    manageConnectedSocket(socket)
+                }catch (e:IOException){
+                    socket.close()
+                    clientSocket = null
+                }
+            }
+//            var socket: BluetoothSocket? = null
+//            try{
+//                socket = selectedDevice?.createRfcommSocketToServiceRecord(MY_UUID)
+//                socket?.connect()
+//
+//                runOnUiThread {
+//                    Toast.makeText(this,"Connected to ${selectedDevice?.name}",Toast.LENGTH_SHORT).show()
+//                }
+//                manageConnectedSocket(socket)
+//            }catch (e: IOException) {
+//                Log.e(TAG, "Error connecting to device", e)
+//                runOnUiThread {
+//                    Toast.makeText(this, "Failed to connect to ${selectedDevice?.name}", Toast.LENGTH_LONG).show()
+//                }
+//                try {
+//                    socket?.close()
+//                } catch (closeException: IOException) {
+//                    Log.e(TAG, "Could not close the client socket", closeException)
+//                }
+//            }
+        }.start()
+    }
+
+    private fun manageConnectedSocket(socket: BluetoothSocket?) {
+        
+    }
+
+    private fun startBluetoothServer(){
+        Thread{
+            try {
+                serverSocket= bluetoothAdapter.listenUsingRfcommWithServiceRecord("TicTacToeApp", MY_UUID)
+                var shouldLoop = true
+                while (shouldLoop){
+                    clientSocket = try{
+                        serverSocket?.accept()
+                    }catch (e:IOException){
+                        shouldLoop = false
+                        null
+                    }
+                    clientSocket?.let {
+                        runOnUiThread {
+                            Toast.makeText(this,"Connected to Device",Toast.LENGTH_SHORT).show()
+                        }
+                        serverSocket?.close()
+                    }
+                }
+            }catch (e: IOException){
+                Log.e(TAG,"Error Connecting to Device",e)
+            }
+        }
     }
 
     private fun showPairedDevices()
@@ -85,7 +165,7 @@ class MultipleDeviceGameLauncher : AppCompatActivity()
                 showPairedDevices()
             } else
             {
-                Toast.makeText(this, "Permissions required to show devices", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Permissions required to show list of available devices", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -109,6 +189,8 @@ class MultipleDeviceGameLauncher : AppCompatActivity()
     companion object
     {
         const val REQUEST_ENABLE_BT = 1
+        private val TAG = MultipleDeviceGameLauncher::class.java.simpleName
+        private val MY_UUID: UUID = UUID.fromString("7df84998-f8e1-4d14-a3cb-aae69067e321")  // SPP UUID
     }
 }
 

@@ -124,7 +124,8 @@ class MainActivity : AppCompatActivity() {
             for (j in 0..2) {
                 buttons[i][j].text = ""
                 buttons[i][j].setOnClickListener {
-                    if (buttons[i][j].text == "") {
+                    if (buttons[i][j].text == "")
+                    {
                         makeMove(i, j, HUMAN)
                         if (!isGameOver()) {
                             val aiMove = getAIMove(board)
@@ -172,13 +173,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     // Minimax with Alpha-Beta Pruning
-    private fun minimax(
-        board: Array<CharArray>,
-        depth: Int,
-        isMaximizing: Boolean,
-        alpha: Int,
-        beta: Int
-    ): Int {
+    private fun minimax(board: Array<CharArray>, depth: Int, isMaximizing: Boolean, alpha: Int, beta: Int): Int
+    {
         if (checkWin(AI)) return 10 - depth
         if (checkWin(HUMAN)) return depth - 10
         if (getAvailableMoves(board).isEmpty()) return 0
@@ -205,7 +201,8 @@ class MainActivity : AppCompatActivity() {
         return bestScore
     }
 
-    private fun findBestMove(board: Array<CharArray>): Pair<Int, Int> {
+    private fun findBestMove(board: Array<CharArray>): Pair<Int, Int>
+    {
         var bestScore = Int.MIN_VALUE
         var bestMove = Pair(-1, -1)
 
@@ -223,7 +220,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     //Find all possible moves
-    private fun getAvailableMoves(board: Array<CharArray>): List<Pair<Int, Int>> {
+    private fun getAvailableMoves(board: Array<CharArray>): List<Pair<Int, Int>>
+    {
         val moves = mutableListOf<Pair<Int, Int>>()
         for (i in 0..2) {
             for (j in 0..2) {
@@ -236,7 +234,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     // Update the UI based on the Game Status
-    private fun checkGameStatus() {
+    private fun checkGameStatus()
+    {
         val status = getGameStatus()
         when (status) {
             "won" -> showStatusMessage("You won!")

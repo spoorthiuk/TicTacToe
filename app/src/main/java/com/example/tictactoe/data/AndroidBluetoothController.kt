@@ -2,8 +2,10 @@ package com.example.tictactoe.data
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothManager
 import android.content.Context
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import com.example.tictactoe.bluetooth.BluetoothController
 import com.example.tictactoe.bluetooth.BluetoothDeviceDomain
@@ -46,8 +48,9 @@ class AndroidBluetoothController(private val context: Context): BluetoothControl
     }
 
     override fun release() {
-        TODO("Not yet implemented")
     }
+
+    fun getBondedDevices(): Set<BluetoothDevice>? = bluetoothAdapter?.bondedDevices
 
     @SuppressLint("MissingPermission")
     fun updatePairedDevices(){
