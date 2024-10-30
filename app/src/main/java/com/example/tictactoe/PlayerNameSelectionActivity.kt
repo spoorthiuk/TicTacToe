@@ -23,13 +23,21 @@ class PlayerNameSelectionActivity:AppCompatActivity() {
         val player2Name = player2.text
 
         submitButton.setOnClickListener {
-//            if(player1Name.isEmpty() || player2Name.isEmpty()){
-//                Toast.makeText(this,"Please Enter Player names",Toast.LENGTH_SHORT).show()
-//            }
-//            else{
-                val intent = Intent(this,GamePlayActivity::class.java)
+            if(player1Name.isEmpty())
+            {
+                Toast.makeText(this,"Please Enter Player 1 name",Toast.LENGTH_SHORT).show()
+            }
+            if(player2Name.isEmpty())
+            {
+                Toast.makeText(this,"Please Enter Player 2 name",Toast.LENGTH_SHORT).show()
+            }
+            else
+            {
+                val intent = Intent(this,HumanVsHumanGamePlayActivity::class.java)
+                intent.putExtra("Player1Name",player1Name.toString())
+                intent.putExtra("Player2Name",player2Name.toString())
                 startActivity(intent)
-            //}
+            }
         }
 
     }
