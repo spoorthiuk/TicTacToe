@@ -17,7 +17,7 @@ class SinglePlayerActivity : AppCompatActivity() {
         setContentView(R.layout.activity_single_player)
         val startGameButton = findViewById<Button>(R.id.startGameButton)
         startGameButton.setOnClickListener {
-            val singlePlayerIntent = Intent(this, MainActivity::class.java)
+            val singlePlayerIntent = Intent(this, GamePlayActivity::class.java)
             startActivity(singlePlayerIntent)
         }
     }
