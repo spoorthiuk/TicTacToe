@@ -29,24 +29,34 @@
         <activity
             android:name=".MainActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
-        <activity
-            android:name=".MultiplayerHomeView"
+
+        <activity android:name=".LoginActivity"
             android:exported="true">
-            <!--<intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
+            </intent-filter>
+
+        </activity>
+
+        <activity
+            android:name=".MultiplayerHomeView"
+            android:exported="true">
+
+            <!--
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            -->
         </activity>
         <activity android:name=".MultiplayerActivity" />
         <activity android:name=".MultipleDeviceGameLauncher" />
-        <activity android:name=".GamePlayActivity"/>
-        <activity android:name=".PlayerNameSelectionActivity"/>
+        <activity android:name=".GamePlayActivity" />
+        <activity android:name=".PlayerNameSelectionActivity" />
     </application>
 
 </manifest>
