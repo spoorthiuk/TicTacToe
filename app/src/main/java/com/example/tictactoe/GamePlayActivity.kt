@@ -68,7 +68,15 @@ class GamePlayActivity:AppCompatActivity() {
                         {
                             val aiMove = getAIMove(gridBoxes)
                             makeMove(aiMove.first,aiMove.second,"AI")
-                        } else checkGameStatus()
+                        } else{
+                            checkGameStatus()
+                            // Remove onClickListeners on gridBoxes
+                            for (i in 0..2) {
+                                for (j in 0..2) {
+                                    gridBoxes[i][j].setOnClickListener(null)
+                                }
+                            }
+                        }
 
                     }
                 }
