@@ -68,12 +68,20 @@ class GamePlayActivity:AppCompatActivity() {
                         {
                             val aiMove = getAIMove(gridBoxes)
                             makeMove(aiMove.first,aiMove.second,"AI")
-                        } else{
+                        }
+                        if (isGameOver()){
                             checkGameStatus()
                             // Remove onClickListeners on gridBoxes
                             for (i in 0..2) {
                                 for (j in 0..2) {
                                     gridBoxes[i][j].setOnClickListener(null)
+                                }
+                            }
+
+                            var winCombination: Array<Array<Int>>? = getWinCombination("Human") ?: getWinCombination("AI")
+                            if (winCombination != null) {
+                                for (pair in winCombination){
+                                    gridBoxes[pair[0]][pair[1]].alpha = 0.5f
                                 }
                             }
                         }
@@ -145,6 +153,36 @@ class GamePlayActivity:AppCompatActivity() {
         if (gridBoxes[0][0].tag == player && gridBoxes[1][1].tag == player && gridBoxes[2][2].tag == player) return true
         if (gridBoxes[0][2].tag == player && gridBoxes[1][1].tag == player && gridBoxes[2][0].tag == player) return true
         return false
+    }
+
+    private fun getWinCombination(player: String): Array<Array<Int>>?
+    {
+        var state:String = if (player == "Human") "won" else "lost"
+        // Check rows
+        for (i in 0..2) {
+            if (gridBoxes[i][0].tag == player && gridBoxes[i][1].tag == player && gridBoxes[i][2].tag == player) {
+                Toast.makeText(this@GamePlayActivity, "You $state at ${i+1}th Row", Toast.LENGTH_SHORT).show()
+                return arrayOf(arrayOf(i, 0), arrayOf(i, 1), arrayOf(i, 2))
+            }
+        }
+        // Check columns
+        for (i in 0..2) {
+            if (gridBoxes[0][i].tag == player && gridBoxes[1][i].tag == player && gridBoxes[2][i].tag == player) {
+                Toast.makeText(this@GamePlayActivity, "You $state at ${i+1}th Column", Toast.LENGTH_SHORT).show()
+                return arrayOf(arrayOf(0, i), arrayOf(1, i), arrayOf(2, i))
+            }
+        }
+        // Check diagonals
+        if (gridBoxes[0][0].tag == player && gridBoxes[1][1].tag == player && gridBoxes[2][2].tag == player) {
+            Toast.makeText(this@GamePlayActivity, "You $state at top left to bottom right diagonal", Toast.LENGTH_SHORT).show()
+            return arrayOf(arrayOf(0, 0), arrayOf(1, 1), arrayOf(2, 2))
+        }
+        if (gridBoxes[0][2].tag == player && gridBoxes[1][1].tag == player && gridBoxes[2][0].tag == player) {
+            Toast.makeText(this@GamePlayActivity, "You $state at bottom left to top right diagonal", Toast.LENGTH_SHORT).show()
+            return arrayOf(arrayOf(0, 2), arrayOf(1, 1), arrayOf(2, 0))
+        }
+        // No winning combination found
+        return null
     }
 
     private fun getAIMove(gridBoxes: Array<Array<ImageView>>): Pair<Int,Int>
@@ -260,8 +298,10 @@ class GamePlayActivity:AppCompatActivity() {
     }
 
     private fun resetGame() {
+        initializeBoard()
         for (i in 0..2) {
             for (j in 0..2) {
+                gridBoxes[i][j].alpha = 1.0f
                 gridBoxes[i][j].tag = "grid_box"
                 gridBoxes[i][j].setImageResource(0) // Clear the images
                 gridBoxes[i][j].isClickable = true // Make the boxes clickable again
