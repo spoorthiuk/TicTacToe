@@ -58,50 +58,49 @@
         android:id="@+id/playerNameEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="#2196F3"
+        android:gravity="center"
         android:hint="Enter your name"
         android:padding="12dp"
-        android:backgroundTint="#2196F3"
         android:textColor="#000000"
         android:textSize="16sp"
-        android:gravity="center"
-        app:layout_constraintTop_toBottomOf="@id/myImageView"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textColorHint="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintVertical_bias="0.1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/pairedDevices"
         app:layout_constraintWidth_percent="0.8" />
 
     <TextView
         android:id="@+id/chooseDifficulty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:elevation="4dp"
         android:padding="16dp"
         android:text="Choose Difficulty"
         android:textColor="#4290f5"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.532" />
+        app:layout_constraintTop_toBottomOf="@id/playerNameEditText" />
 
     <Spinner
         android:id="@+id/difficulty_spinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:layout_marginTop="8dp"
         android:entries="@array/difficulty_levels"
         android:minHeight="48dp"
         android:radius="16dp"
         android:state_pressed="true"
-        android:textColor="#4290f5"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.61" />
+        app:layout_constraintTop_toBottomOf="@+id/chooseDifficulty" />
 
     <Button
         android:id="@+id/startGameButton"
