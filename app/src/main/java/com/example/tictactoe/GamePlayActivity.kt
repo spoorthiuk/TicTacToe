@@ -14,6 +14,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.w3c.dom.Text
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -22,6 +23,7 @@ import java.util.Locale
 class GamePlayActivity:AppCompatActivity() {
     private lateinit var gridBoxes : Array<Array<ImageView>>
     private lateinit var statusTextView:TextView
+    private lateinit var difficultyTextView:TextView
     private lateinit var settingsButton:ImageButton
     private var selectedDifficulty = "Hard"
     private lateinit var db: AppDatabase
@@ -37,6 +39,10 @@ class GamePlayActivity:AppCompatActivity() {
 
         setContentView(R.layout.game_play3)
         statusTextView = findViewById(R.id.statusTextView)
+        difficultyTextView = findViewById(R.id.currentDifficulty)
+
+        difficultyTextView.text = selectedDifficulty
+        difficultyTextView.visibility = TextView.VISIBLE
         gridBoxes = arrayOf(
             arrayOf(findViewById(R.id.box1), findViewById(R.id.box2), findViewById(R.id.box3)),
             arrayOf(findViewById(R.id.box5),findViewById(R.id.box6),findViewById(R.id.box4)),
@@ -241,7 +247,8 @@ class GamePlayActivity:AppCompatActivity() {
                 when (which) {
                     in 0..2 -> {
                         selectedDifficulty = options[which]
-                        resetGame()
+                        difficultyTextView.text = selectedDifficulty
+                        difficultyTextView.visibility = TextView.VISIBLE
                     }
                     // Update difficulty
                     3 -> resetGame() // Reset the game
