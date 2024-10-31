@@ -6,6 +6,10 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 
 class MultiplayerActivity : AppCompatActivity() {
+    /**
+     * This class file acts as a launcher for the different multiplayer
+     * mdoes
+     */
     private lateinit var singleDeviceButton: Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

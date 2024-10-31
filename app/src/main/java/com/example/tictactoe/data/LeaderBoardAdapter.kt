@@ -11,7 +11,6 @@ import com.example.tictactoe.models.LeaderboardEntry
 
 class LeaderboardAdapter(private var entries: List<LeaderboardEntry>) :
     RecyclerView.Adapter<LeaderboardAdapter.LeaderboardViewHolder>() {
-
     class LeaderboardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvDate: TextView = itemView.findViewById(R.id.tvDate)
         val tvWinner: TextView = itemView.findViewById(R.id.tvWinner)
