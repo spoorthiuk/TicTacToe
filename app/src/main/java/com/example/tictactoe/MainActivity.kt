@@ -18,6 +18,9 @@ import android.widget.TextView
 import android.widget.Toast
 
 class MainActivity : AppCompatActivity() {
+    /**
+     * This class file implements the main Human VS AI logic which is then
+     */
     private var board = Array(3) { CharArray(3) { ' ' } }
     private val HUMAN = 'X'
     private val AI = 'O'

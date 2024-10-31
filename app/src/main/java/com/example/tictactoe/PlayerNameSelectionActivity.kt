@@ -9,6 +9,11 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 class PlayerNameSelectionActivity:AppCompatActivity() {
+    /**
+     * This class file implement the player name
+     * input display and as a launcher for the
+     * Human VS Human on same device gameplay
+     */
     private lateinit var startGameButton: Button
     private lateinit var player1:EditText
     private lateinit var player2:EditText

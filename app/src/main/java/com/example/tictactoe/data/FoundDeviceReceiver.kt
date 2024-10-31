@@ -6,7 +6,7 @@ import android.content.Context
 import android.content.Intent
 
 class FoundDeviceReceiver (
-    private val onDEviceFound: (BluetoothDevice) -> Unit
+    private val onDeviceFound: (BluetoothDevice) -> Unit
 ) : BroadcastReceiver(){
     override fun onReceive(context: Context?, intent: Intent?) {
         when(intent?.action){

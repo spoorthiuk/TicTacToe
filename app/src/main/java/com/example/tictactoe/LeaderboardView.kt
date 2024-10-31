@@ -14,8 +14,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class LeaderboardView : AppCompatActivity() {
+    /**
+     * This class implements the leaderboard to display past games
+     * in single player mode
+     */
     private lateinit var leaderboardAdapter: LeaderboardAdapter
-    private lateinit var gameResultDao: GameResultDao
     private lateinit var db: AppDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {

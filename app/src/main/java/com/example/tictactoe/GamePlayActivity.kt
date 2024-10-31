@@ -14,13 +14,15 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.w3c.dom.Text
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
 
 class GamePlayActivity:AppCompatActivity() {
+    /**
+     * This class defines the main Human VS AI gameplay
+     */
     private lateinit var gridBoxes : Array<Array<ImageView>>
     private lateinit var statusTextView:TextView
     private lateinit var difficultyTextView:TextView
@@ -34,7 +36,7 @@ class GamePlayActivity:AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        db = AppDatabase.getDatabase(this)
+        db = AppDatabase.getDatabase(this) //Initialize the database
         selectedDifficulty = intent.getStringExtra("DIFFICULTY") ?: "Hard"
 
         setContentView(R.layout.game_play3)
@@ -43,6 +45,8 @@ class GamePlayActivity:AppCompatActivity() {
 
         difficultyTextView.text = selectedDifficulty
         difficultyTextView.visibility = TextView.VISIBLE
+
+        //Set up the game board
         gridBoxes = arrayOf(
             arrayOf(findViewById(R.id.box1), findViewById(R.id.box2), findViewById(R.id.box3)),
             arrayOf(findViewById(R.id.box5),findViewById(R.id.box6),findViewById(R.id.box4)),
@@ -58,6 +62,7 @@ class GamePlayActivity:AppCompatActivity() {
 
     }
 
+    //Set up the initial gameboard
     private fun initializeBoard()
     {
         for (i in 0..2 )
@@ -82,6 +87,7 @@ class GamePlayActivity:AppCompatActivity() {
         }
     }
 
+    //Checks the game status and displays the result
     private fun checkGameStatus()
     {
         val status = getGameStatus()
@@ -99,6 +105,7 @@ class GamePlayActivity:AppCompatActivity() {
         statusTextView.visibility = TextView.VISIBLE
     }
 
+    //DEtermines the game outcome
     private fun getGameStatus(): String {
         val gameStatus: String
         val username = intent.getStringExtra("USERNAME")
@@ -128,6 +135,7 @@ class GamePlayActivity:AppCompatActivity() {
         return gameStatus
     }
 
+    //Checks for win or draw
     private fun isGameOver(): Boolean
     {
         return checkWin("Human") || checkWin("AI") || getAvailableMoves(gridBoxes).isEmpty()
@@ -145,6 +153,7 @@ class GamePlayActivity:AppCompatActivity() {
         return false
     }
 
+    // AI selects the move based on the difficulty level
     private fun getAIMove(gridBoxes: Array<Array<ImageView>>): Pair<Int,Int>
     {
         return when (selectedDifficulty) {
@@ -238,7 +247,7 @@ class GamePlayActivity:AppCompatActivity() {
         gridBoxes[i][j].isClickable = false
     }
 
-
+    //Displays Dialog box for selecting difficulty
     private fun showDifficultyDialog() {
         val options = arrayOf("Easy", "Medium", "Hard", "Reset")
         AlertDialog.Builder(this)
@@ -258,6 +267,7 @@ class GamePlayActivity:AppCompatActivity() {
             .show()
     }
 
+    // Resets the game
     private fun resetGame() {
         for (i in 0..2) {
             for (j in 0..2) {
@@ -270,6 +280,7 @@ class GamePlayActivity:AppCompatActivity() {
         statusTextView.visibility = TextView.GONE // Hide the status text view
     }
 
+    //Saves the result to database
     private fun saveGameResult(winner: String, username: String) {
         val currentDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
         val difficulty = selectedDifficulty
