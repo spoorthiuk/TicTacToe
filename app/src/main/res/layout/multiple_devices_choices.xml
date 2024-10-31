@@ -34,6 +34,36 @@
         app:layout_constraintVertical_bias="0.2" />
 
     <Button
+        android:id="@+id/startServerButton"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:elevation="4dp"
+        android:padding="12dp"
+        android:text="Start Server"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.924"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.801" />
+
+    <Button
+        android:id="@+id/connectClientButton"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:elevation="4dp"
+        android:padding="12dp"
+        android:text="Connect"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.884" />
+
+    <Button
         android:id="@+id/startGameButton"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
@@ -43,10 +73,10 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.884" />
+        app:layout_constraintVertical_bias="0.801" />
 
     <Button
         android:id="@+id/bluetoothON"
@@ -57,6 +87,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/startGameButton"
-        app:layout_constraintVertical_bias="0.466" />
+        app:layout_constraintVertical_bias="0.651" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

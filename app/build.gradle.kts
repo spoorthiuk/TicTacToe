@@ -4,6 +4,7 @@ plugins {
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
     id("com.google.devtools.ksp") version "1.8.10-1.0.9" apply false
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.8.0"
 }
 
 android {
@@ -88,6 +89,8 @@ dependencies {
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.material)
     */
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
+    implementation("org.json:json:20210307")
 }
 
 
