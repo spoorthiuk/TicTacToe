@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F2946C"
+    android:background="#e8dc6f"
     android:hapticFeedbackEnabled="true">
 
     <TextView
@@ -12,7 +12,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Enter Player2 Name"
-        android:textColor="@color/black"
+        android:textColor="#4290f5"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -26,8 +27,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Enter Player1 Name"
-        android:textColor="@color/black"
         android:textStyle="bold"
+        android:textColor="#4290f5"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -42,7 +44,7 @@
         android:hint="@string/enter_your_name"
         android:inputType="text"
         android:textColor="@color/black"
-        android:textStyle="bold|italic"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -58,7 +60,7 @@
         android:hint="@string/enter_your_name"
         android:inputType="text"
         android:textColor="@color/black"
-        android:textStyle="bold|italic"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -67,16 +69,30 @@
         app:layout_constraintVertical_bias="0.469" />
 
     <Button
-        android:id="@+id/submitPlayerNamesButton"
+        android:id="@+id/multiplayerLeaderboardButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#FF8552"
+        android:backgroundTint="#4CAF50"
         android:backgroundTintMode="screen"
-        android:text="Submit"
-        android:textColor="@color/black"
+        android:text="Leaderboard"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.631" />
+        app:layout_constraintVertical_bias="0.673" />
+
+    <Button
+        android:id="@+id/startGameButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#2196F3"
+        android:backgroundTintMode="screen"
+        android:text="Start Game"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.571" />
 </androidx.constraintlayout.widget.ConstraintLayout>

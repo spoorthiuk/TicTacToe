@@ -1,5 +1,6 @@
 package com.example.tictactoe
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -9,6 +10,9 @@ import androidx.appcompat.app.AppCompatActivity
 
 class HumanVsHumanGamePlayActivity: AppCompatActivity()
 {
+    /**
+     * This class implements the Human Vs Human same device multiplayer game
+     */
     private lateinit var gridBoxes:Array<Array<ImageView>>
     private lateinit var player1Name:TextView
     private lateinit var player2Name:TextView
@@ -17,7 +21,9 @@ class HumanVsHumanGamePlayActivity: AppCompatActivity()
     private var hasPlayerWon = false
     private lateinit var settingsButton:ImageButton
     private lateinit var gameStatusTextView: TextView
+    private lateinit var currentPlayerTextView: TextView
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
@@ -26,9 +32,11 @@ class HumanVsHumanGamePlayActivity: AppCompatActivity()
         player2Name = findViewById(R.id.humanPlayer2)
         settingsButton = findViewById(R.id.icon_button)
         gameStatusTextView = findViewById(R.id.statusTextView)
+        currentPlayerTextView = findViewById(R.id.currentPlayer)
         player1Name.text = intent.getStringExtra("Player1Name").toString()
         player2Name.text = intent.getStringExtra("Player2Name").toString()
 
+        //Initialize the game Board
         gridBoxes = arrayOf(
             arrayOf(findViewById(R.id.box1), findViewById(R.id.box2), findViewById(R.id.box3)),
             arrayOf(findViewById(R.id.box5),findViewById(R.id.box6),findViewById(R.id.box4)),
@@ -39,7 +47,7 @@ class HumanVsHumanGamePlayActivity: AppCompatActivity()
             showWhoGoesFirstDialog(player1Name.text.toString(),player2Name.text.toString())
         }
     }
-
+        // Dialog to select who goes first
         private fun showWhoGoesFirstDialog(player1Name: String, player2Name: String)
         {
             val players = arrayOf(player1Name,player2Name,"Reset")
@@ -56,10 +64,12 @@ class HumanVsHumanGamePlayActivity: AppCompatActivity()
 
                 }
                 currentPlayer = firstPlayerName
+                currentPlayerTextView.text = currentPlayer + "'s Turn"
             }
                 .setNegativeButton("Cancel"){ dialog,_ -> dialog.dismiss() }.show()
         }
 
+    // Reset the board to start a new game
     private fun resetGame()
     {
         for (i in 0..2)
@@ -74,6 +84,7 @@ class HumanVsHumanGamePlayActivity: AppCompatActivity()
         }
     }
 
+    // Initialize the board to start a new game
     private fun initializeBoard()
     {
         for (i in 0..2)
@@ -90,10 +101,14 @@ class HumanVsHumanGamePlayActivity: AppCompatActivity()
                         gameStatusTextView.text = "${currentPlayer} Wins!"
                         return@setOnClickListener
                     }
-                    if(currentPlayer == player1Name.text.toString())
+                    if(currentPlayer == player1Name.text.toString()){
                         currentPlayer = player2Name.text.toString()
-                    else
+                        currentPlayerTextView.text = currentPlayer + "'s Turn"
+                    }
+                    else {
                         currentPlayer = player1Name.text.toString()
+                        currentPlayerTextView.text = currentPlayer + "'s Turn"
+                    }
                 }
             }
             if (hasPlayerWon){
@@ -102,6 +117,7 @@ class HumanVsHumanGamePlayActivity: AppCompatActivity()
         }
     }
 
+    //Make a move on the board
     private fun makeMove(i: Int, j: Int, gridBoxes: Array<Array<ImageView>>)
     {
         if(currentPlayer == player1Name.text.toString() && gridBoxes[i][j].tag == "grid_box")
@@ -117,6 +133,7 @@ class HumanVsHumanGamePlayActivity: AppCompatActivity()
         gridBoxes[i][j].isClickable = false
     }
 
+    //Check if the current player has won
     private fun checkWin(player: String): Boolean
     {
         for (i in 0..2)

@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
         android:gravity="center"
-        android:text="Leaderboard"
+        android:text="Past Games"
         android:textColor="#4290f5"
         android:textSize="35sp"
         android:textStyle="bold"
@@ -104,8 +104,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvLeaderboard"
-        android:layout_width="361dp"
-        android:layout_height="1317dp"
+        android:layout_width="371dp"
+        android:layout_height="319dp"
         android:layout_marginTop="208dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
