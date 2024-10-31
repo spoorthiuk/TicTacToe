@@ -39,7 +39,7 @@ class GamePlayActivity:AppCompatActivity() {
         db = AppDatabase.getDatabase(this) //Initialize the database
         selectedDifficulty = intent.getStringExtra("DIFFICULTY") ?: "Hard"
 
-        setContentView(R.layout.game_play3)
+        setContentView(R.layout.game_play_screen)
         statusTextView = findViewById(R.id.statusTextView)
         difficultyTextView = findViewById(R.id.currentDifficulty)
 
