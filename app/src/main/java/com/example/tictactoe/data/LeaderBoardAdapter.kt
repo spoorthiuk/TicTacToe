@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tictactoe.R
+import com.example.tictactoe.models.LeaderBoardEntryMultiplayer
 import com.example.tictactoe.models.LeaderboardEntry
 
 class LeaderboardAdapter(private var entries: List<LeaderboardEntry>) :

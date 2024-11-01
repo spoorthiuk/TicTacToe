@@ -27,6 +27,9 @@
         android:theme="@style/Theme.TicTacToe"
         tools:targetApi="31">
         <activity
+            android:name=".LeaderboardMultiplayer"
+            android:exported="false" />
+        <activity
             android:name=".GamePlayAcrossDevicesActivity"
             android:exported="false" />
         <activity

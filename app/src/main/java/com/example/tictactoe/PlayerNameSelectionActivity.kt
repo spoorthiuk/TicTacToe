@@ -15,6 +15,7 @@ class PlayerNameSelectionActivity:AppCompatActivity() {
      * Human VS Human on same device gameplay
      */
     private lateinit var startGameButton: Button
+    private lateinit var leaderboardButton: Button
     private lateinit var player1:EditText
     private lateinit var player2:EditText
     @SuppressLint("MissingInflatedId")
@@ -23,6 +24,7 @@ class PlayerNameSelectionActivity:AppCompatActivity() {
         setContentView(R.layout.select_players_name)
 
         startGameButton = findViewById(R.id.startGameButton)
+        leaderboardButton = findViewById(R.id.multiplayerLeaderboardButton)
         player1 = findViewById(R.id.player1Name)
         player2 = findViewById(R.id.player2Name)
 
@@ -45,6 +47,11 @@ class PlayerNameSelectionActivity:AppCompatActivity() {
                 intent.putExtra("Player2Name",player2Name.toString())
                 startActivity(intent)
             }
+        }
+        leaderboardButton.setOnClickListener{
+            val intent = Intent(this,LeaderboardMultiplayer::class.java)
+            intent.putExtra("GameMode","Multiplayer")
+            startActivity(intent)
         }
 
     }

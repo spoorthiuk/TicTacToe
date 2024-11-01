@@ -36,7 +36,7 @@ class GamePlayAcrossDevicesActivity : AppCompatActivity() {
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.game_play3)
+        setContentView(R.layout.human_vs_human_gameplay)
 
         statusTextView = findViewById(R.id.statusTextView)
         gridBoxes = arrayOf(

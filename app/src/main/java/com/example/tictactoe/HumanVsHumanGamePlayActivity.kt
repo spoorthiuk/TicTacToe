@@ -5,8 +5,19 @@ import android.os.Bundle
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.example.tictactoe.dao.AppDatabase
+import com.example.tictactoe.models.GameResult
+import com.example.tictactoe.models.GameResultMultiplayer
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class HumanVsHumanGamePlayActivity: AppCompatActivity()
 {
@@ -22,12 +33,14 @@ class HumanVsHumanGamePlayActivity: AppCompatActivity()
     private lateinit var settingsButton:ImageButton
     private lateinit var gameStatusTextView: TextView
     private lateinit var currentPlayerTextView: TextView
+    private lateinit var db: AppDatabase
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.human_vs_human_gameplay)
+        db = AppDatabase.getDatabase(this)
         player1Name = findViewById(R.id.humanPlayer1)
         player2Name = findViewById(R.id.humanPlayer2)
         settingsButton = findViewById(R.id.icon_button)
@@ -99,6 +112,9 @@ class HumanVsHumanGamePlayActivity: AppCompatActivity()
                     {
                         hasPlayerWon = true
                         gameStatusTextView.text = "${currentPlayer} Wins!"
+                        saveGameResult(currentPlayer, player1Name.text.toString(),
+                            player2Name.text.toString()
+                        )
                         return@setOnClickListener
                     }
                     if(currentPlayer == player1Name.text.toString()){
@@ -144,5 +160,37 @@ class HumanVsHumanGamePlayActivity: AppCompatActivity()
         if (gridBoxes[0][0].tag == player && gridBoxes[1][1].tag == player && gridBoxes[2][2].tag == player) return true
         if (gridBoxes[0][2].tag == player && gridBoxes[1][1].tag == player && gridBoxes[2][0].tag == player) return true
         return false
+    }
+
+    //Saves the result to database
+    private fun saveGameResult(winner: String, username1: String, username2: String) {
+        val currentDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
+        val gameResult = GameResultMultiplayer(
+            date = currentDate,
+            username1 = username1,
+            username2 = username2,
+            winner = winner
+        )
+
+        // Step 3: Insert the game result in the database using a coroutine
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                db.gameResultDao().insertGameResultMultiplayer(gameResult)
+                // Provide feedback to the user (on the main thread)
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@HumanVsHumanGamePlayActivity, "Game result saved!", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            } catch (e: Exception) {
+                // Handle any errors
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(
+                        this@HumanVsHumanGamePlayActivity,
+                        "Error saving result: ${e.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
     }
 }
