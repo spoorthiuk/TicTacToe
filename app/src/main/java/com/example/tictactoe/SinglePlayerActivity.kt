@@ -37,6 +37,7 @@ class SinglePlayerActivity : AppCompatActivity() {
         leaderboardButton.setOnClickListener {
             // Open LeaderBoardActivity
             val intent = Intent(this, LeaderboardView::class.java)
+            intent.putExtra("GameMode","Singleplayer")
             startActivity(intent)
         }
     }

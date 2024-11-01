@@ -5,9 +5,10 @@ import androidx.room.RoomDatabase
 import android.content.Context
 import androidx.room.TypeConverters
 import com.example.tictactoe.models.GameResult
+import com.example.tictactoe.models.GameResultMultiplayer
 import com.example.tictactoe.utils.Converters
 
-@Database(entities = [GameResult::class], version = 1)
+@Database(entities = [GameResult::class, GameResultMultiplayer::class], version = 1)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun gameResultDao(): GameResultDao
@@ -21,7 +22,7 @@ abstract class AppDatabase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     AppDatabase::class.java,
-                    "game_result_database1"
+                    "game_result_database_main"
                 ).fallbackToDestructiveMigration().build()
                 INSTANCE = instance
                 instance
