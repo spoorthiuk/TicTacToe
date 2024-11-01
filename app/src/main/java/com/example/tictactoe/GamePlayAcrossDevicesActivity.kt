@@ -47,10 +47,9 @@ class GamePlayAcrossDevicesActivity : AppCompatActivity() {
 
 
         connectedSocket?.let { socket ->
-            Toast.makeText(this, "Socket connected: $socket", Toast.LENGTH_LONG).show()
-
             if (isServer) {
                 // Server sends the initial game state
+                showFirstTurnDialog()
                 isPlayerTurn = true
                 Toast.makeText(this, "Your turn", Toast.LENGTH_LONG).show()
                 sendInitialGameState(socket, isServer = true)
@@ -61,6 +60,23 @@ class GamePlayAcrossDevicesActivity : AppCompatActivity() {
             setBoxClickListeners()
         }
     }
+
+    private fun showFirstTurnDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("Who Goes First?")
+            .setMessage("Choose who goes first.")
+            .setPositiveButton("ME") { _, _ ->
+                isPlayerTurn = true
+                Toast.makeText(this, "You go first!", Toast.LENGTH_SHORT).show()
+            }
+            .setNegativeButton("OPPONENT") { _, _ ->
+                isPlayerTurn = false
+                Toast.makeText(this, "Opponent goes first!", Toast.LENGTH_SHORT).show()
+            }
+            .setCancelable(false)
+            .show()
+    }
+
 
     private fun setBoxClickListeners() {
         for (i in gridBoxes.indices) {
@@ -83,7 +99,6 @@ class GamePlayAcrossDevicesActivity : AppCompatActivity() {
 
     private fun makeMove(row: Int, col: Int, symbol: String) {
         gridBoxes[row][col].tag = symbol
-        Toast.makeText(this, "GRID IMAGE"+symbol,Toast.LENGTH_SHORT).show()
         gridBoxes[row][col].setImageResource(if (symbol == "X") R.drawable.cross else R.drawable.circle)
         gridBoxes[row][col].isClickable = false
 
@@ -242,9 +257,6 @@ class GamePlayAcrossDevicesActivity : AppCompatActivity() {
         }
         // Update turn based on the received game state
         isPlayerTurn = (gameState.turn == "0" && isServer) || (gameState.turn == "1" && !isServer)
-        if (isPlayerTurn) {
-            Toast.makeText(this, "It's your turn!", Toast.LENGTH_SHORT).show()
-        }
     }
 
 

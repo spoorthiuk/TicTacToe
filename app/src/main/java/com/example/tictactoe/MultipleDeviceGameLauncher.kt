@@ -14,6 +14,7 @@ import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ListView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -29,6 +30,7 @@ class MultipleDeviceGameLauncher : AppCompatActivity() {
     private lateinit var showPairedDevicesButton: Button
     private lateinit var startServerButton: Button
     private lateinit var listView: ListView
+    private lateinit var startServerText: TextView
     private var serverSocket: BluetoothServerSocket? = null
     private var clientSocket: BluetoothSocket? = null
     private val MY_UUID: UUID = UUID.fromString("7df84998-f8e1-4d14-a3cb-aae69067e321")
@@ -44,6 +46,7 @@ class MultipleDeviceGameLauncher : AppCompatActivity() {
         showPairedDevicesButton = findViewById(R.id.bluetoothON)
         startServerButton = findViewById(R.id.startServerButton)
         listView = findViewById(R.id.listViewDevices)
+        startServerText = findViewById(R.id.serverText)
 
         // Adapter to list paired devices
         pairedDeviceListAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, mutableListOf())
@@ -53,7 +56,9 @@ class MultipleDeviceGameLauncher : AppCompatActivity() {
 
         // Set up buttons
         showPairedDevicesButton.setOnClickListener { showPairedDevices() }
-        startServerButton.setOnClickListener { startBluetoothServer() }
+        startServerButton.setOnClickListener {
+            startServerText.text = "Waiting for player to join"
+            startBluetoothServer() }
 
         // Handle device selection for connection
         listView.setOnItemClickListener { _, _, position, _ ->
