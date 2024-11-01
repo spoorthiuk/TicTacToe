@@ -27,7 +27,7 @@ class SinglePlayerActivity : AppCompatActivity() {
         startGameButton.setOnClickListener {
             val username = playerNameEditText.text.toString()
             val selectedDifficulty = difficultySpinner.selectedItem.toString()
-            val singlePlayerIntent = Intent(this, GamePlayActivity::class.java).apply {
+            val singlePlayerIntent = Intent(this, MainActivity::class.java).apply {
                 putExtra("USERNAME", username)
                 putExtra("DIFFICULTY", selectedDifficulty)
             }
